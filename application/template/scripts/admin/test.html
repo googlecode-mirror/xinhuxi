@@ -1,0 +1,36 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
+<style type="text/css">
+#targetElement { width:240px;height:200px;background-color:#999;margin:30px auto; }
+.positionDiv { width:50px;height:50px;opacity:0.6; }
+#position1 {background-color:#F00;}
+#position2 {background-color:#0F0;}
+#position3 {background-color:#00F;}
+#position4 {background-color:#FF0;}
+</style>
+</head>
+<body>
+/admin/test<br/>
+<?php
+
+echo 'show msg:<br/>';
+print_r($this->msg);
+echo '<br/>';
+
+echo "show form:".$this->form.'<br/>';
+
+
+echo 'show List:<br/>';
+$model = Agan_Com_ModelManager::getModel(0, $this->model->action);
+$model->dataList();
+Zend_Debug::dump( $model->result['data']->toArray() );
+
+?>
+</body>
+</html>

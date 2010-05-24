@@ -1,0 +1,70 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Paging Grid Example</title>
+<link rel="stylesheet" type="text/css" href="resources/css/ext-all.css" />
+<script type="text/javascript" src="ext-base-debug-w-comments.js"></script>
+<script type="text/javascript" src="ext-all-debug-w-comments.js"></script>
+<script type="text/javascript" src="TableGrid.js"></script>
+
+<script>
+Ext.onReady(function(){
+	var form = new Ext.form.FormPanel({
+        baseCls: 'x-plain',
+        labelWidth: 55,
+        url: 'save-form.php',
+        layout: {
+            type: 'vbox',
+            align: 'stretch'  // Child items are stretched to full width
+        },
+        defaults: {
+            xtype: 'textfield'
+        },
+
+        items: [{
+            xtype: 'textarea',
+            fieldLabel: 'Message text',
+            hideLabel: true,
+            name: 'msg',
+            flex: 1  // Take up all *remaining* vertical space
+        }]
+    });
+
+    var w = new Ext.Window({
+        title: 'Compose message',
+        collapsible: true,
+        maximizable: true,
+        width: 750,
+        height: 500,
+        minWidth: 300,
+        minHeight: 200,
+        layout: 'fit',
+        plain: true,
+        bodyStyle: 'padding:5px;',
+        buttonAlign: 'center',
+        items: form,
+        buttons: [{
+            text: 'Send'
+        },{
+            text: 'Cancel'
+        }]
+    });
+
+
+    new Ext.Button({
+        text: 'Start',
+        renderTo: 'start-ct',
+        handler: updateSpot.createDelegate(this, ['panel1'])
+    });
+
+});
+
+</script>
+</head>
+<body>
+
+<div id="start-ct"></div>
+dddddddd
+</body>
+</html>

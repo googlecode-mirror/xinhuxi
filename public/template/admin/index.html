@@ -1,0 +1,39 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>jQuery EasyUI</title>
+	<link rel="stylesheet" type="text/css" href="../common/js/easyui/default/easyui.css">
+	<script type="text/javascript" src="../common/js/jquery-1.4.2.min.js"></script>
+    <script type="text/javascript" src="../common/js/jquery.tree.js"></script>
+    <script type="text/javascript" src="../common/js/jquery.panel.js"></script>
+    <script type="text/javascript" src="../common/js/jquery.resizable.js"></script>
+    <script type="text/javascript" src="../common/js/jquery.layout.js"></script>
+
+
+    <script type="text/javascript">
+		$(function(){
+            $('body').layout();
+			$('#menu').tree({
+				//url: 'tree_data.php',
+				onClick:function(node){
+					$('#_mainFrame').attr('src',node.attributes.url);
+					//alert( node.attributes.url );
+					/*
+					for( var a in node.attributes ){
+						alert(a);
+					}
+					*/
+				}
+			});
+		});
+	</script>
+</head>
+<body class="easyui-layout">
+	<div region="west" split="true" title="菜单" style="width:150px;">
+		<ul id="menu" class="easyui-tree" url="menu.php"></ul>
+	</div>
+	<div region="center" title="您的用户名：admin">
+		<iframe id="_mainFrame" name="_mainFrame" frameborder="0" scrolling="yes" style="width: 100%; height: 100%;" src="/admin/index/add/"/>
+	</div>
+</body>
+</html>

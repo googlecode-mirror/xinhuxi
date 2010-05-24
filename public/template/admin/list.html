@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+<script src="../common/js/jquery-1.4.2.min.js"></script>
+<script src="../common/js/jquery-ui-1.8.custom.min.js"></script>
+<script src="../common/js/jquery.metadata.js"></script>
+<script src="../common/js/jquery.validate.js"></script>
+<script src="../common/js/xheditor-zh-cn.src.js"></script>
+<link rel="stylesheet" href="../common/js/jqueryui/jquery-ui-1.8.1.custom.css" type="text/css">
+<!--
+<link id="xheCSS_default" rel="stylesheet" href="../common/js/xheditor_skin/default/ui.css" type="text/css">
+-->
+<script type="text/javascript">
+$(function() {
+	$(".ui-button").button();
+	$.metadata.setType("attr", "data");
+	$("#loginForm").validate({
+		debug:true,
+		errorClass:'ui-state-error',
+		validClass:'ui-state-highlight',
+		meta: "validate"
+	});
+    $("#testForm").validate({
+		errorClass:'ui-state-error',
+		validClass:'ui-state-highlight',
+		meta: "validate"
+	});
+	$('#birthday').datepicker({
+			monthNamesShort:['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'],
+			dateFormat: 'yy-mm-dd',
+			minDate: '1976-01-01',
+			maxDate:'1990-01-01',
+			changeMonth: true,
+			changeYear: true
+	});
+});
+
+		/*
+		rules:{
+                field2:{
+                    required:true,
+                    rangelength:[2,3]
+                }
+            },
+		messages: {
+				field2:'哈市的发生的发生地方'
+			},
+		//errorElement:'span',
+		*/
+</script>
+<style>
+body{text-align:center;font-size:12px;}
+</style>
+</head>
+<body>
+
+<div style="margin:0 auto;width:90%;">
+
+
+<?php
+$model = $this->model;
+$data = $model->result['id'];
+$titles = array_shift($data);
+?>
+<form method="post">
+<table class="ui-widget ui-widget-content ui-table">
+	<caption class="ui-widget-header">基本信息</caption>
+	<thead>
+		<tr class="ui-widget-header">
+            <?php
+            foreach( $titles as $title ) echo "<th>$title</th>\n";
+            ?>
+		</tr>
+	</thead>
+	<tbody>
+        <?php
+            foreach( $data as $titles ){
+            echo "<tr>\n";
+            foreach( $titles as $title ) echo "<td>$title</td>\n";
+            echo "</tr>\n";
+            }
+        ?>
+	</tbody>
+</table>
+<!--<div class="ui-widget-header"></div>-->
+<div class="ui-widget-content ui-corner-bottom ui-table-footer">
+    <div style="text-align:center">123456789</div>
+    <div>
+    <input class="ui-button ui-widget ui-state-default ui-corner-all" name="type_order" type="submit" value="排序" />
+    <input class="ui-button ui-widget ui-state-default ui-corner-all" onClick="return window.confirm('确定删除所选吗？')" name="type_delete" type="submit" value="删除" />
+    <input class="ui-button ui-widget ui-state-default ui-corner-all" type="submit" value="批量移动" />
+    </div>
+</div>
+<br />
+</form>
+
+</div>
+
+<p id='debug'>debug</p>
+</body>
+</html>

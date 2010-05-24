@@ -1,0 +1,15 @@
+[{
+	"id":1,
+	"text":"测试",
+	"iconCls":"icon-ok",
+	"children":[{
+		"id":2,
+		"text":"添加",
+		"attributes":{"url":"/admin/index/add"}
+	},
+    {
+		"id":3,
+		"text":"管理",
+		"attributes":{"url":"/admin/index/list"}
+	}]
+}]

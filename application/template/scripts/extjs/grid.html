@@ -1,0 +1,60 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>From Markup Grid Example</title>
+<link rel="stylesheet" type="text/css" href="resources/css/ext-all.css" />
+<!-- GC -->
+ 	<!-- LIBS  -->
+ 	<script type="text/javascript" src="ext-base-debug-w-comments.js"></script>
+ 	<!-- ENDLIBS -->
+    <script type="text/javascript" src="ext-all-debug-w-comments.js"></script>
+    <script type="text/javascript" src="TableGrid.js"></script>
+    <script type="text/javascript">
+    Ext.onReady(function(){
+       var grid = new Ext.ux.grid.TableGrid("the-table", {
+                stripeRows: true // stripe alternate rows
+            });
+       grid.render();
+    });
+    </script>
+</head>
+<body>
+
+    <table cellspacing="0" id="the-table">
+        <thead>
+            <tr style="background:#eeeeee;">
+                <th>Name</th>
+                <th style="width: 40px;">Age</th>
+                <th>Sex</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Barney Rubble</td>
+                <td>32</td>
+                <td>Male</td>
+            </tr>
+            <tr>
+                <td>Fred Flintstone</td>
+                <td>33</td>
+                <td>Male</td>
+            </tr>
+            <tr>
+                <td>Betty Rubble</td>
+                <td>32</td>
+                <td>Female</td>
+            </tr>
+            <tr>
+                <td>Pebbles</td>
+                <td>1</td>
+                <td>Female</td>
+            </tr>
+            <tr>
+                <td>Bamm Bamm</td>
+                <td>2</td>
+                <td>Male</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

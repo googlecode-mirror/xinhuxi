@@ -1,0 +1,229 @@
+<?php
+$grid = $this->grid;
+$gridFields = array();
+$gridColumns = array();
+foreach($grid['title'] as $key => $val ){
+    $gridFields[] = $key;
+    $gridColumns[] = array('header'=>$val,'dataIndex'=>$key);
+}
+$gridFields = json_encode($gridFields);
+$gridColumns = json_encode($gridColumns);
+$form = $this->form;
+$addForm = array();
+foreach ( $form['addForm'] as $elm ){
+	$addForm[] = $elm;
+}
+$addForm = json_encode($addForm);
+//Zend_Debug::dump($addForm);exit();
+?>
+<html lang="en" xmlns:ext="http://www.extjs.com/docs">
+<head>
+    <base href="http://agan/template/manager/" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>ExtJS 3.2.1 API Documentation</title>
+    <link rel="stylesheet" type="text/css" href="resources/css/ext-all.css" />
+ 	<script type="text/javascript" src="ext-base-debug-w-comments.js"></script>
+    <script type="text/javascript" src="ext-all-debug-w-comments.js"></script>
+    <style>.x-tip .x-tip-body{font-size:13px;}</style>
+    <script type="text/javascript">
+    Ext.onReady(function(){
+        var addWin;
+        function openAddWin()
+        {
+            if(!addWin){
+                var form = new Ext.form.FormPanel({
+						        layout : "form",   
+						        id:"addForm",  
+                                baseCls : 'x-plain',
+                                labelWidth : 55,
+                                labelAlign : 'center',
+                                defaultType: 'textfield',
+                                defaults : {
+                                	anchor:	'100%',
+                                	autoWidth : true
+                                },
+                                items: <?=$addForm?>
+                            });
+
+                addWin = new Ext.Window({
+                    //applyTo:'hello-win',
+					title : "添加数据",   
+                    modal:true,
+                    layout:'fit',
+                    width:500,
+                    height:300,
+                    closeAction:'hide',
+                    plain: true,
+                    items: form,
+                    buttons: [{
+                        text:'确定',
+                        handler: function(){
+                        	this.disable();
+                            form.getForm().submit({
+                            	url : '/xhx/inputForm',
+                            	waitMsg : '正在提交表单，请稍后...',
+                            	success:function(_form,_action){
+		                            grid.getStore().load();
+		                            Ext.MessageBox.alert("系统消息","添加成功!");
+		                            addWin.hide();
+		                        },
+		                        failure: function(form, action) {
+							        switch (action.failureType) {
+							            case Ext.form.Action.CLIENT_INVALID:
+							                Ext.Msg.alert('Failure', 'Form fields may not be submitted with invalid values');
+							                break;
+							            case Ext.form.Action.CONNECT_FAILURE:
+							                Ext.Msg.alert('Failure', 'Ajax communication failed');
+							                break;
+							            case Ext.form.Action.SERVER_INVALID:
+							               Ext.Msg.alert('Failure', action.result.msg);
+							       }
+							    }
+                            });                            
+                            this.enable();
+                        }
+                    },{
+                        text: '重置',
+                        handler: function(){
+                            form.getForm().reset();
+                        }
+                    },{
+                        text: '返回',
+                        handler: function(){
+                            addWin.hide();
+                        }
+                    }]
+                });
+            }
+            addWin.show(this);
+        }
+
+        var searchWin;
+        function openSearchWin()
+        {
+            if(!searchWin){
+                searchWin = new Ext.Window({
+                    //applyTo:'hello-win',
+                    modal:true,
+                    layout:'fit',
+                    width:500,
+                    height:300,
+                    closeAction:'hide',
+                    plain: true,
+                    items: new Ext.form.FormPanel({
+                                baseCls: 'x-plain',
+                                labelWidth:	55,
+                                url:'save-form.php',
+                                defaultType: 'textfield',
+
+                                items: [{
+                                    fieldLabel:	'Send To',
+                                    name: 'to',
+                                    anchor:'100%'  // anchor width by percentage
+                                },{
+                                    fieldLabel:	'Subject',
+                                    name: 'subject',
+                                    anchor:	'100%'	// anchor width	by percentage
+                                }, {
+                                    xtype: 'textarea',
+                                    hideLabel: true,
+                                    name: 'msg',
+                                    anchor:	'100% -53'	// anchor width	by percentage and height by	raw	adjustment
+                                }]
+                            }),
+                    buttons: [{
+                        text:'Submit',
+                        handler: function(){
+                            grid.getStore().load();
+                            searchWin.hide();
+                        }
+                    },{
+                        text: 'Close',
+                        handler: function(){
+                            searchWin.hide();
+                        }
+                    }]
+                });
+            }
+            searchWin.show(this);
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+        var store = new Ext.data.JsonStore({
+            remoteSort:true,
+            root: 'rows',
+            totalProperty: 'results',
+            url: 'http://agan/xhx/gridData',
+            fields: <?=$gridFields?>
+        });
+
+        var grid = new Ext.grid.GridPanel({
+            width:700,
+            height:500,
+            title:'ExtJS.com - Browse Forums',
+            store: store,            
+            colModel: new Ext.grid.ColumnModel({
+                defaults: {
+                    sortable: true
+                },
+                columns: <?=$gridColumns?>
+            }),
+            viewConfig: {
+                forceFit:true
+            },
+
+            // paging bar on the bottom
+            bbar: new Ext.PagingToolbar({
+                pageSize: 10,
+                store: store,
+                displayInfo: true,
+                displayMsg: '显示数据 {0} - {1} of {2}',
+                emptyMsg: "没有找到相关数据"
+            }),
+
+            tbar:[
+                {
+                    text:'搜索',
+                    handler:openSearchWin
+                },'-',{
+                    text:'添加',
+                    handler:openAddWin
+                }, '-',{
+                    text:'修改',
+                    handler:function(){alert('修改')}
+                }, '-',{
+                    text:'删除',
+                    //ref: '../removeButton',
+                    disabled: true
+                }]
+        });
+
+        // render it
+        grid.render('topic-grid');
+
+        // trigger the data store load
+        store.load({params:{start:0, limit:10}});
+    });
+    </script>
+<style>
+body{text-align:center;}
+
+.x-panel{margin:30px auto;}
+</style>
+</head>
+<body scroll="no" id="docs">
+ 
+<div id="topic-grid"></div>
+</body>
+</html>

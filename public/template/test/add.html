@@ -1,0 +1,251 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf8">
+<title>新闻-发布</title>
+<link href="images/system.css" rel="stylesheet" type="text/css">
+<script type="text/javaScript" src="images/config.js"></script>
+<script type="text/javaScript" src="images/js/jquery.min.js"></script>
+<script type="text/javaScript" src="images/js/css.js"></script>
+<script type="text/javaScript" src="images/js/common.js"></script>
+<script type="text/javaScript" src="images/js/admin.js"></script>
+<script type="text/javascript" src="images/js/validator.js"></script>
+<script type="text/javascript" src="images/js/form.js"></script>
+</head>
+<script type="text/javascript" src="images/js/form.js"></script>
+<script type="text/javascript" src="images/js/jqModal.js"></script>
+<script type="text/javascript" src="images/js/jqDnR.js"></script>
+<body>
+<table cellpadding="0" cellspacing="1" class="table_form">
+  <caption>新闻 栏目管理</caption>
+  <tr>
+    <td><a href='?mod=phpcms&file=content&action=add&catid=32' ><font color="red">发布信息</font></a> | <a href='?mod=phpcms&file=content&action=my&catid=32' >我发布的信息</a> | <a href='?mod=phpcms&file=content&action=check&catid=32&processid=1&status=3' >审核</a> | <a href='?mod=phpcms&file=content&action=manage&catid=32' >管理</a> | <a href='?mod=phpcms&file=content&action=recycle&catid=32' >回收站</a> | <a href='?mod=phpcms&file=content&action=block&catid=32' >碎片</a> | <a href='?mod=phpcms&file=content&action=search&catid=32' >搜索</a></td>
+  </tr>
+</table><div class="tag_menu" style="width:99%;margin-top:10px;">
+<ul>
+  <li><a href="###" id='TabTitle0' onclick='ShowTabs(0)' class="selected">基本信息</a></li>
+  <li><a href="###" id='TabTitle1' onclick='ShowTabs(1)'>高级设置</a></li>
+</ul></div>
+<form action="?mod=phpcms&file=content&action=add&catid=32&modelid=1" method="post" name="myform"  enctype="multipart/form-data">
+<div id='Tabs0' style='display:'>
+<input type="hidden" name="dosubmit" value="1" />
+<table cellpadding="0" cellspacing="1" class="table_form">
+  <caption>基本信息</caption>
+ 	<tr>
+      <th width="20%"> <font color="red">*</font> <strong>栏目</strong> <br />
+	  	  </th>
+      <td><select name="info[catid]" id="catid"><option value="32" selected>新闻</option></select><input type="hidden" name="old_catid" value="32"> <a href='' class="jqModal" onclick="$('.jqmWindow').show();"/> [同时发布到其他栏目]</a> </td>
+    </tr>
+	<tr>
+      <th width="20%"> <font color="red">*</font> <strong>标题</strong> <br />
+	  	  </th>
+      <td><input type="text" name="info[title]" id="title" value="" size="80" class="inputtitle" require="true" datatype="limit" min="1" max="80" msg='字符长度必须为1到80位' onBlur="$.post('api/get_keywords.php?number=3&sid='+Math.random()*5, {data:$('#title').val()}, function(data){if(data) $('#keywords').val(data); })"/> <input type="button" value="检测标题是否已存在" onclick="$.post('?mod=phpcms&file=content&catid=32', { action : 'check_title', c_title:$('#title').val()}, function(data){ $('#t_msg').html(data); })">&nbsp;<span style="color:'#ff0000'" id='t_msg'></span> </td>
+    </tr>
+	<tr>
+      <th width="20%"> <strong>颜色和字型</strong> <br />
+	  	  </th>
+      <td><select name="style_color1" id="style_color1" onchange="document.all.style_id1.value=document.all.style_color1.value;if(document.all.style_strong1.checked)document.all.style_id1.value += ' '+document.all.style_strong1.value;">
+<option value="">颜色</option>
+<option value="c1"  class="bg1"></option>
+<option value="c2"  class="bg2"></option>
+<option value="c3"  class="bg3"></option>
+<option value="c4"  class="bg4"></option>
+<option value="c5"  class="bg5"></option>
+<option value="c6"  class="bg6"></option>
+<option value="c7"  class="bg7"></option>
+<option value="c8"  class="bg8"></option>
+<option value="c9"  class="bg9"></option>
+<option value="c10"  class="bg10"></option>
+<option value="c11"  class="bg11"></option>
+<option value="c12"  class="bg12"></option>
+<option value="c13"  class="bg13"></option>
+<option value="c14"  class="bg14"></option>
+<option value="c15"  class="bg15"></option>
+</select>
+ <label><input type="checkbox" name="style_strong1" id="style_strong1" value="b"  onclick="document.all.style_id1.value=document.all.style_color1.value;if(document.all.style_strong1.checked)document.all.style_id1.value += ' '+document.all.style_strong1.value;"> 加粗</label><input type="hidden" name="info[style]" id="style_id1" value=""> </td>
+    </tr>
+	<tr>
+      <th width="20%"> <strong>缩略图</strong> <br />
+	  	  </th>
+      <td><input type="text" name="info[thumb]" id="thumb" value="" size="50" class="" /> <input type="hidden" name="thumb_aid" id="thumb_aid" value="0"> <input type="button" name="thumb_upimage" id="thumb_upimage" value="上传图片" style="width:60px" onclick="javascript:openwinx('?mod=phpcms&file=upload_field&uploadtext=thumb&modelid=1&catid=32&fieldid=8','upload','450','350')"/>  <input type='button' value='浏览...' style='cursor:pointer;' onclick="file_select('thumb', 32, 1)"> <input name="cutpic" type="button" id="cutpic" value="裁剪图片" onclick="CutPic('thumb','http://127.0.0.1/phpcms/')"/> </td>
+    </tr>
+	<tr>
+      <th width="20%"> <strong>关键词</strong> <br />
+	  多关键词之间用空格隔开	  </th>
+      <td><input type="" name="info[keywords]" id="keywords" value="" size="50" class=""  /> <select name='select_keyword' onchange="if($('#keywords').val()==''){ $('#keywords').val(this.value);}else if($('#keywords').val().indexOf(this.value)==-1){ $('#keywords').val($('#keywords').val()+' '+this.value);}" style='width:85px'><option>常用关键词</option><option value='株洲'>株洲</option>
+</select> <a href="###" onclick="SelectKeyword();">更多&gt;&gt;</a> </td>
+    </tr>
+	<tr>
+      <th width="20%"> <strong>作者</strong> <br />
+	  	  </th>
+      <td><input type="text" name="info[author]" id="author" value="" size="30" class=""  /> <select name="" onchange="$('#author').val(this.value)" style="width:75px"><option>常用作者</option></select> <a href="###" onclick="SelectAuthor();">更多&gt;&gt;</a> </td>
+    </tr>
+	<tr>
+      <th width="20%"> <strong>来源</strong> <br />
+	  	  </th>
+      <td><input type="" name="info[copyfrom]" id="copyfrom" value="" size="30" class=""  /> <select name="select_copyfrom" onchange="$('#copyfrom').val(this.value)" style="width:75px"><option>常用来源</option></select> <a href="###" onclick="SelectCopyfrom();">更多&gt;&gt;</a> </td>
+    </tr>
+	<tr>
+      <th width="20%"> <strong>摘要</strong> <br />
+	  	  </th>
+      <td> <img src="images/icon.gif" width="12"> 还可以输入 <font id="ls_description" color="#ff0000;">255</font> 个字符！<br /><textarea name="info[description]" id="description" rows="4" cols="50" class="" style="width:80%" onkeyup="checkLength(this, 'description', '255');"></textarea> </td>
+    </tr>
+	<tr>
+      <th width="20%"> <font color="red">*</font> <strong>内容</strong> <br />
+	  <label><input name="add_introduce" type="checkbox"  value="1" checked>是否截取内容</label><br><input type="text" name="introcude_length" value="200" size="3">字符至内容摘要
+<br/><br/>
+<label><input type='checkbox' name='auto_thumb' value="1" checked>是否获取内容第</label><br><input type="text" name="auto_thumb_no" value="1" size="2" class="">张图片作为标题图片	  </th>
+      <td><textarea name="info[content]" id="content" style="display:none"></textarea>
+<script type="text/javascript" src="fckeditor/fckeditor.js"></script>
+<script language="JavaScript" type="text/JavaScript">var SiteUrl = "http://localhost/phpcms/"; var Module = "phpcms"; var sBasePath = "http://localhost/phpcms/" + 'fckeditor/'; var oFCKeditor = new FCKeditor( 'content' ) ; oFCKeditor.BasePath = sBasePath ; oFCKeditor.Height = '350'; oFCKeditor.Width	= '100%' ; oFCKeditor.ToolbarSet	= 'standard' ;oFCKeditor.ReplaceTextarea();editor_data_id += 'content|';if(typeof(MM_time)=='undefined'){MM_time = setInterval(update_editor_data,30000);}</script><div style='width:100%;text-align:left'><span style='float:right;height:22px'><span style='padding:1px;margin-right:10px;background-color: #fefe;border:#006699 solid 1px;'><a href='javascript:insert_page("content")' title='在光标处插入分页标记'>分页</a></span><span style='padding:1px;margin-right:10px;background-color: #fefe;border:#006699 solid 1px;'><a href='javascript:insert_page_title("content")' title='在光标处插入带子标题的分页标记'>子标题</a></span><span style='padding:1px;margin-right:10px;background-color: #fefe;border:#006699 solid 1px;'><div id='page_title_div' style='background-color: #fff;border:#006699 solid 1px;position:absolute;z-index:10;padding:1px;display:none;right:80px;'>
+				<table cellpadding='0' cellspacing='1' border='0'><tr><td >请输入子标题名称：<span id='msg_page_title_value'></span></td><td><span style='cursor:pointer;float:right;' onclick='javascript:$("#page_title_div").hide()'>×</span></td>
+				<tr><td colspan='2'><input name='page_title_value' id='page_title_value' value='' size='40'>&nbsp;<input type='button' value=' 确定 ' onclick=insert_page_title("content",1)></td></tr>
+				</table></span></div><span style='padding:1px;margin-right:10px;background-color: #fefe;border:#006699 solid 1px;'><div id='content_div' style='background-color: #fff;border:#006699 solid 1px;position:absolute;z-index:10;padding:5px;display:none;right:60px;'>
+						<table cellpadding='0' cellspacing='1' border='0'><tr><td>
+						<div><a href='javascript:get_editor_data_list("content",1)' class='hour' style='border:#cccccc solid 1px;margin:2px;padding-left:4px;padding-right:4px;font-weight: bold;' title='1 小时'>1</a><a href='javascript:get_editor_data_list("content",2)' class='hour' style='border:#cccccc solid 1px;margin:2px;padding-left:4px;padding-right:4px;' title='2 小时'>2</a><a href='javascript:get_editor_data_list("content",3)' class='hour' style='border:#cccccc solid 1px;margin:2px;padding-left:4px;padding-right:4px;' title='3 小时'>3</a><a href='javascript:get_editor_data_list("content",4)' class='hour' style='border:#cccccc solid 1px;margin:2px;padding-left:4px;padding-right:4px;' title='4 小时'>4</a></div></td><td><span style='cursor:pointer;' onclick='javascript:$("#content_div").hide()'>×</span></td></tr></table><ul id='content_lists' style='height:200px;width:140px;overflow:auto;'></ul></div><a href='javascript:get_editor_data_list("content",1)' title='点击恢复数据'>恢复数据</a></span></span><img src="http://localhost/phpcms/images/editor_add.jpg" title='增加编辑器高度' tag='1' fck="content"/>&nbsp;  <img src="http://localhost/phpcms/images/editor_diff.jpg" title='减少编辑器高度' tag='0' fck="content"/></div><div id="MM_file_list_content" style="text-align:left"></div><div id='FilePreview' style='Z-INDEX: 1000; LEFT: 0px; WIDTH: 10px; POSITION: absolute; TOP: 0px; HEIGHT: 10px; display: none;'></div><div id='content_save'></div> </td>
+    </tr>
+	<tr>
+      <th width="20%"> <strong>分页方式</strong> <br />
+	  	  </th>
+      <td><select name="info[paginationtype]" id="paginationtype" onchange="if(this.value==1)paginationtype1.style.display=''; else paginationtype1.style.display='none';">
+                <option value="0">不分页</option>
+                <option value="1">自动分页</option>
+                <option value="2">手动分页</option>
+            </select> &nbsp;&nbsp;&nbsp;&nbsp;<strong><font color="#0000FF">注：</font></strong><font color="#0000FF">手动分页时，将光标放在需要分页处，点编辑器下面的“</font> 分页 <font color="#0000FF">”即可。点击“</font> 子标题 <font color="#0000FF">”可以设置每篇分页的标题。</font>
+			<div id="paginationtype1" style="display:none">自动分页时的每页大约字符数（包含HTML标记）<strong> <input name="info[maxcharperpage]" type="text" id="maxcharperpage" value="10000" size="8" maxlength="8"></strong></div> </td>
+    </tr>
+<tr>
+      <th width="20%"><strong>状态</strong><br />
+	  </th>
+      <td>
+	  	  <label><input type="radio" name="status" value="99" checked/> 发布</label>
+	  	  <label><input type="radio" name="status" value="3" > 审核</label>
+	  <label><input type="radio" name="status" value="2"> 草稿</label>
+	  </td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>
+	  <input type="hidden" name="forward" value="">
+	  <input type="submit" name="dosubmit" value=" 确定 ">
+      &nbsp; <input type="button" name="preview" value=" 预览 " onclick="preview_content();">
+	  &nbsp; <input type="reset" name="reset" value=" 清除 ">
+	  </td>
+    </tr>
+</table>
+</div>
+<div id='Tabs1' style='display:none'>
+<table cellpadding="0" cellspacing="1" class="table_form">
+  <caption>高级设置</caption>
+ 	<tr>
+      <th width="20%"> <strong>完整标题</strong> <br />
+	  	  </th>
+      <td><input type="text" name="info[titleintact]" id="titleintact" value="" size="80" class="" require="false" datatype="limit" min="0" max="200" msg='字符长度必须为0到200位' />  </td>
+    </tr>
+	<tr>
+      <th width="20%"> <strong>转向链接</strong> <br />
+	  	  </th>
+      <td><input type="hidden" name="info[islink]" value="99"><input type="text" name="info[linkurl]" id="linkurl" value="" size="50" maxlength="255" disabled> <font color="#FF0000"><label><input name="info[islink]" type="checkbox" id="islink" value="1" onclick="ruselinkurl();" > 转向链接</label></font><br/><font color="#FF0000">如果使用转向链接则点击标题就直接跳转而内容设置无效</font> </td>
+    </tr>
+	<tr>
+      <th width="20%"> <strong>发布时间</strong> <br />
+	  	  </th>
+      <td><link rel="stylesheet" type="text/css" href="images/js/calendar/calendar-blue.css"/>
+			        <script type="text/javascript" src="images/js/calendar/calendar.js"></script><input type="text" name="info[inputtime]" id="inputtime" value="2010-04-23 06:58:17" size="21" readonly>&nbsp;<script language="javascript" type="text/javascript">
+					date = new Date();document.getElementById ("inputtime").value="2010-04-23 06:58:17";
+					Calendar.setup({
+						inputField     :    "inputtime",
+						ifFormat       :    "%Y-%m-%d %H:%M:%S",
+						showsTime      :    true,
+						timeFormat     :    "24"
+					});
+				 </script> </td>
+    </tr>
+	<tr>
+      <th width="20%"> <strong>推荐位</strong> <br />
+	  全选<input boxid='posids' type='checkbox' onclick="checkall('posids')" >	  </th>
+      <td><input type="hidden" name="info[posids]" value="-99"><span style="width:125px"><label><input type="checkbox" boxid="posids" name="info[posids][]" id="posids" value="1" style="border:0px"   /> 首页推荐</label></span>
+ <span style="width:125px"><label><input type="checkbox" boxid="posids" name="info[posids][]" id="posids" value="2" style="border:0px"   /> 首页焦点</label></span>
+ <span style="width:125px"><label><input type="checkbox" boxid="posids" name="info[posids][]" id="posids" value="3" style="border:0px"   /> 首页头条</label></span>
+ <span style="width:125px"><label><input type="checkbox" boxid="posids" name="info[posids][]" id="posids" value="4" style="border:0px"   /> 列表页推荐</label></span>
+ <br />
+<span style="width:125px"><label><input type="checkbox" boxid="posids" name="info[posids][]" id="posids" value="5" style="border:0px"   /> 内容页推荐</label></span>
+  </td>
+    </tr>
+	<tr>
+      <th width="20%"> <strong>阅读权限</strong> <br />
+	  全选<input boxid='groupids_view' type='checkbox' onclick="checkall('groupids_view')" >	  </th>
+      <td><input type="hidden" name="info[groupids_view]" value="-99"><span style="width:125px"><label><input type="checkbox" boxid="groupids_view" name="info[groupids_view][]" id="groupids_view" value="1" style="border:0px"   /> 管理员</label></span>
+ <span style="width:125px"><label><input type="checkbox" boxid="groupids_view" name="info[groupids_view][]" id="groupids_view" value="2" style="border:0px"   /> 禁用</label></span>
+ <span style="width:125px"><label><input type="checkbox" boxid="groupids_view" name="info[groupids_view][]" id="groupids_view" value="3" style="border:0px"   /> 游客</label></span>
+ <span style="width:125px"><label><input type="checkbox" boxid="groupids_view" name="info[groupids_view][]" id="groupids_view" value="4" style="border:0px"   /> 待邮件验证</label></span>
+ <br />
+<span style="width:125px"><label><input type="checkbox" boxid="groupids_view" name="info[groupids_view][]" id="groupids_view" value="5" style="border:0px"   /> 待审核</label></span>
+ <span style="width:125px"><label><input type="checkbox" boxid="groupids_view" name="info[groupids_view][]" id="groupids_view" value="6" style="border:0px"   /> 注册会员</label></span>
+  </td>
+    </tr>
+	<tr>
+      <th width="20%"> <strong>阅读所需点数</strong> <br />
+	  	  </th>
+      <td><input type="text" name="info[readpoint]" id="readpoint" value="" size="10" class="" require="false" datatype="limit" min="0" max="5" msg='字符长度必须为0到5位' />  </td>
+    </tr>
+	<tr>
+      <th width="20%"> <strong>html文件名</strong> <br />
+	  	  </th>
+      <td><input type="text" name="info[prefix]" id="prefix" value="" size="20" class="" require="false" datatype="limit" min="0" max="20" msg='字符长度必须为0到20位' />  </td>
+    </tr>
+	<tr>
+      <th width="20%"> <strong>内容页模板</strong> <br />
+	  	  </th>
+      <td><select name="info[template]" id="template"   ><option value="" >请选择</option>
+<option value="show" selected>文章内容页(show.html)</option>
+<option value="show_down" >下载内容页(show_down.html)</option>
+<option value="show_info" >信息内容页(show_info.html)</option>
+<option value="show_ku6" >(show_ku6.html)</option>
+<option value="show_picture" >图片内容页(show_picture.html)</option>
+<option value="show_product" >产品内容页(show_product.html)</option>
+<option value="show_video" >视频内容页(show_video.html)</option>
+<option value="showmessage" >提示信息(showmessage.html)</option>
+</select> </td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>
+	  <input type="hidden" name="forward" value="">
+	  <input type="submit" name="dosubmit" value=" 确定 ">
+      &nbsp; <input type="button" name="preview" value=" 预览 " onclick="preview_content();">
+	  &nbsp; <input type="reset" name="reset" value=" 清除 ">
+	  </td>
+    </tr>
+</table>
+</div>
+<div class="jqmWindow">
+<h5 class="title" style="cursor:move"><a href="#" class="jqmClose"><img src="images/close.gif" alt="" height="16px" width="16px" /></a>同时发布到其他栏目</h5>
+<div id="protocol" style="height:300px;overflow:auto;">
+<table cellpadding="0" cellspacing="1" class="table_list">
+<caption>请选择栏目</caption>
+<tr><td style='height:22px;padding:0 0 0 10px;'>新闻</td><td><input type="checkbox" name="cat_selected[]" value="32"></td></tr><tr>
+  <td></td><td><input type="button" value="确定" id="ok" onclick="$('.jqmWindow').hide();" style="width:60px"></td>
+</tr>
+</table>
+</div>
+</div>
+</form>
+<script LANGUAGE="javascript">
+<!--
+function preview_content()
+{
+	myform.action = "preview.php";
+	myform.target = "_blank";
+	myform.submit();
+	myform.action = "?mod=phpcms&file=content&action=add&catid=32&modelid=1";
+	myform.target="_self";
+}
+$().ready(function() {
+	$('form').checkForm(1);
+	$('.jqmWindow').jqm({overlay: 0	}).jqDrag('.title');
+	});
+
+//-->
+</script>
+</body>
+</html>

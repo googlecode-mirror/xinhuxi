@@ -1,0 +1,41 @@
+
+前端控制器
+getInstance()
+getInstance()方法用来获取前端控制器实例。因为前端控制器实现了单件模式，这可能是唯一创建前端控制器对象的方法。 
+$front = Zend_Controller_Front::getInstance();
+
+前端控制器参数
+noViewRenderer用来禁用ViewRenderer。设定该参数为true可以禁用该助手。 
+noErrorHandler 用来禁用错误处理器插件。设定该参数为true可以禁用该插件。 
+
+
+
+请求对象
+
+模块名可通过getModuleName()和setModuleName()访问。 
+控制器名可通过getControllerName()和setControllerName()访问。 
+控制器调用的动作名称可通过getActionName()和setActionName()访问。 
+可访问的参数是一个键值对的关联数组。数组可通过getParams()和 setParams()获取及设置，单个参数可以通过 getParam() 和 setParam()获取及设置。 
+
+
+决定请求方式 
+getMethod() 允许你决定用于请求当前资源的 HTTP 请求方法。另外，当询问是否一个请求的特定类型是否已经存在，有许多方法允许你获得布尔响应： 
+isGet()
+isPost()
+isPut()
+isDelete()
+isHead()
+isOptions()
+
+isXmlHttpRequest()
+
+
+动作控制器
+$this->_helper->viewRenderer->setNoRender();
+preDispatch() 和postDispatch()
+ContextSwitch
+$this->_helper->json
+
+
+备注
+Control_Action类初始化

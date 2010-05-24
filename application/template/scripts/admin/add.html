@@ -1,0 +1,106 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+<script src="../common/js/jquery-1.4.2.min.js"></script>
+<script src="../common/js/jquery-ui-1.8.custom.min.js"></script>
+<script src="../common/js/jquery.metadata.js"></script>
+<script src="../common/js/jquery.validate.js"></script>
+<script src="../common/js/xheditor-zh-cn.src.js"></script>
+<link rel="stylesheet" href="../common/js/jqueryui/jquery-ui-1.8.1.custom.css" type="text/css">
+<!--
+<link id="xheCSS_default" rel="stylesheet" href="../common/js/xheditor_skin/default/ui.css" type="text/css">
+-->
+<script type="text/javascript">
+$(function() {
+	$("input:submit,input:reset").button();
+	$.metadata.setType("attr", "data");
+	$("#loginForm").validate({
+		debug:true,
+		errorClass:'ui-state-error',
+		validClass:'ui-state-highlight',
+		meta: "validate"
+	});
+    $("#testForm").validate({
+		errorClass:'ui-state-error',
+		validClass:'ui-state-highlight',
+		meta: "validate"
+	});
+	$('#birthday').datepicker({
+			monthNamesShort:['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'],
+			dateFormat: 'yy-mm-dd',
+			minDate: '1976-01-01',
+			maxDate:'1990-01-01',
+			changeMonth: true,
+			changeYear: true
+	});
+});
+
+		/*
+		rules:{
+                field2:{
+                    required:true,
+                    rangelength:[2,3]
+                }
+            },
+		messages: {
+				field2:'哈市的发生的发生地方'
+			},
+		//errorElement:'span',
+		*/
+</script>
+<style>
+body{text-align:center;font-size:12px;}
+</style>
+</head>
+<body>
+
+<div style="margin:0 auto;width:90%;">
+
+<form id="testForm" action="/admin/index/add/form" method="post">
+<?php
+$model = $this->model;
+if( isset($model->result['_hidden']) ){
+    echo $model->result['_hidden'];
+    unset($model->result['_hidden']);
+
+}
+?>
+<table class="ui-widget ui-widget-content ui-table-form ui-table">
+	<!-- <caption class="ui-widget-header">添加数据</caption>  -->
+	<thead>
+        <tr class="ui-widget-header">
+            <th colspan="2">添加数据</th>
+        </tr>
+    </thead>
+	<tbody>
+<?php
+foreach( $model->result as $key => $e ){
+$field = $model->getField($key);
+?>
+		<tr>
+			<th width="20%">
+				<span class="ui-form-field-name"><?php echo $field->label;?>:</span>
+				<br />
+				<span class="ui-form-field-info"><?php echo $field->description;?></span>
+			</th>
+			<td><?php echo $e;?></td>
+		</tr>
+<?php
+}
+?>
+	</tbody>
+	<tfoot>
+		<td colspan="2">
+			<input class="ui-button ui-widget ui-state-default ui-corner-all" type="submit" value="确定" />
+			<input class="ui-button ui-widget ui-state-default ui-corner-all" type="reset" value="还原" />
+		</td>
+	</tfoot>
+</table>
+</form>
+</div>
+
+<p id='debug'>debug</p>
+</body>
+</html>
