@@ -162,5 +162,25 @@ class XHX_Controller_Item_Data extends XHX_Controller_Item
         $this->_count = $this->_table->getCount($where);
         return $this->_data = $this->_table->fetchAll($where, $order, $limit, $start);
     }
+    
+    public function deleteAction(){
+        $params = $this->_ctr->getRequest()->getParams();
+        if( !isset($params['ids']) || empty($params['ids']) ){
+            $success = false;
+            $msg = '操作失败';
+        }else{
+            $ids = $params['ids'];
+            $where = " $this->key in ( $ids )";
+            $this->_table->delete($where);
+            $success = true;
+            $msg = '操作成功';
+        }
+        
+        $r = array(
+					'success'=>$success,
+					'msg'=>'$msg'
+				);
+		$this->_ctr->getHelper('json')->sendJson($r);
+    }
 }
 ?>

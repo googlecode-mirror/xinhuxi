@@ -8,6 +8,9 @@ foreach($grid['title'] as $key => $val ){
 }
 $gridFields = json_encode($gridFields);
 $gridColumns = json_encode($gridColumns);
+$count = 1;
+$gridColumns = str_replace('[','[selectM,',$gridColumns,$count);
+
 $form = $this->form;
 $addForm = array();
 foreach ( $form['addForm'] as $elm ){
@@ -24,7 +27,7 @@ $addForm = json_encode($addForm);
     <link rel="stylesheet" type="text/css" href="resources/css/ext-all.css" />
  	<script type="text/javascript" src="ext-base-debug-w-comments.js"></script>
     <script type="text/javascript" src="ext-all-debug-w-comments.js"></script>
-    <style>.x-tip .x-tip-body{font-size:13px;}</style>
+    <style>.x-panel-header-text, .x-btn-noicon .x-btn-small .x-btn-text,.x-tip .x-tip-body{font-size:13px;}</style>
     <script type="text/javascript">
     Ext.onReady(function(){
         var addWin;
@@ -115,7 +118,6 @@ $addForm = json_encode($addForm);
                                 labelWidth:	55,
                                 url:'save-form.php',
                                 defaultType: 'textfield',
-
                                 items: [{
                                     fieldLabel:	'Send To',
                                     name: 'to',
@@ -149,17 +151,6 @@ $addForm = json_encode($addForm);
         }
 
 
-
-
-
-
-
-
-
-
-
-
-
         var store = new Ext.data.JsonStore({
             remoteSort:true,
             root: 'rows',
@@ -168,21 +159,36 @@ $addForm = json_encode($addForm);
             fields: <?=$gridFields?>
         });
 
+        
+        
+        var selectM = new Ext.grid.CheckboxSelectionModel({
+            listeners: {
+                selectionchange : function(sm) {
+                    if (sm.getCount()) {
+                        if(sm.getCount()==1) grid.updateButton.enable(); else grid.updateButton.disable();
+                        grid.removeButton.enable();
+                    } else {
+                        grid.removeButton.disable();
+                    }
+                }
+            }
+        });
+
         var grid = new Ext.grid.GridPanel({
             width:700,
             height:500,
-            title:'ExtJS.com - Browse Forums',
+            title:'测试 - 数据管理',
             store: store,            
             colModel: new Ext.grid.ColumnModel({
                 defaults: {
                     sortable: true
                 },
-                columns: <?=$gridColumns?>
+                columns:<?=$gridColumns?>
             }),
+            sm: selectM,
             viewConfig: {
                 forceFit:true
             },
-
             // paging bar on the bottom
             bbar: new Ext.PagingToolbar({
                 pageSize: 10,
@@ -191,7 +197,6 @@ $addForm = json_encode($addForm);
                 displayMsg: '显示数据 {0} - {1} of {2}',
                 emptyMsg: "没有找到相关数据"
             }),
-
             tbar:[
                 {
                     text:'搜索',
@@ -201,11 +206,34 @@ $addForm = json_encode($addForm);
                     handler:openAddWin
                 }, '-',{
                     text:'修改',
+                    ref: '../updateButton',
+                    disabled: true,
                     handler:function(){alert('修改')}
                 }, '-',{
                     text:'删除',
-                    //ref: '../removeButton',
-                    disabled: true
+                    ref: '../removeButton',
+                    disabled: true,
+                    handler:function(){
+                        var rows = selectM.getSelections();
+                        var ids = new Array();
+                         
+                        for( var i = 0; i < rows.length ; i++){
+                            ids.push( rows[i].get('id') );
+                        }
+                        ids = ids.join(',');
+                        
+                        var mk = new Ext.LoadMask(Ext.getBody(), {
+                            msg: '正在进行操作，请稍候!',
+                            removeMask: true //完成后移除
+                        });
+                        mk.show();
+                        Ext.Ajax.request({
+                           url: '/xhx/delete',
+                           success: function(){Ext.MessageBox.alert("系统消息","删除成功!");mk.hide();grid.getStore().load();},
+                           failure: function(){Ext.MessageBox.alert("系统消息","删除失败!");mk.hide();grid.getStore().load();},
+                           params: { 'ids' : ids }
+                        });
+                    }
                 }]
         });
 
